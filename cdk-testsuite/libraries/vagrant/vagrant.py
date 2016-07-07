@@ -106,16 +106,16 @@ def vagrant_plugin_install(self):
     
 
 # This method is for multi windows shell support ,it runs the specific commands in the particalar sheels 
-def shell_commands(self, command):
+def sh_cmd(self, command,shell=None):
     self.log.info("This method is used because we need to provide support for Powershell , cmd, cygwin, bash,ubuntu")
-    if self.params.get('Windows_Shell') == 'powershell':
+    if shell == 'powershell':
         operator = '|'
         shell_output = subprocess.Popen([r'C:/WINDOWS/system32/WindowsPowerShell/v1.0/powershell.exe',command],cwd=os.getcwd())
         result = shell_output.wait
         time.sleep(20)
         self.log.debug('Suspend result :' + str(result))
         return shell_output
-    elif self.params.get('Windows_Shell') == 'cmd':
+    elif shell == 'cmd':
         operator = '&'
         shell_output = subprocess.Popen([r'C:/Windows/System32/cmd.exe',command],
                                     cwd=os.getcwd())
