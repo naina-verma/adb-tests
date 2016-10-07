@@ -4,37 +4,6 @@ import time
 import subprocess
 import pexpect
 from avocado import Test
-#This is used for decoration purpose only!
-dash="===================================================\n"
-
-#This method is used for setting up path according to your platform 
-def settingPath(self):
-    self.log.debug("Checking your machine OS")
-    linux = 'Linux'
-    win = "CYGWIN_NT-10.0"
-    mac = "Darwin"
-    p = subprocess.Popen("uname", stdout=subprocess.PIPE, shell=True)
-    (output, err) = p.communicate()
-    self.log.debug(output)
-    if output.strip() == linux:
-        self.log.debug("Using Linux yaml parameters")
-        var = self.params.get(linux)
-        self.log.debug("This is my path variable :" + var)
-
-    elif output.strip() == win:
-        self.log.debug("Using win yaml parameters")
-
-        var = self.params.get(win)
-        self.log.debug("This is my path variable :" + var)
-
-
-    elif output.strip() == mac:
-        self.log.debug("We are on Mac OS")
-        var = self.params.get(mac)
-        self.log.debug("This is my variable :" + var)
-        self.log.debug("This is my path variable :" + var)
-
-    return var
 
 #This method is doing Vagrant up with the specific provider 
 def vagrantUp(self, path):
@@ -72,23 +41,23 @@ def global_status(self, vm_name):
 
 
 def vagrantDestroy(self,path):
-    self.log.info(dash + " vagrant destroy ::Start" + dash)
+    self.log.info(" vagrant destroy ::Start")
     os.chdir(path)
     p = subprocess.Popen("vagrant destroy --force", stdout=subprocess.PIPE, shell=True)
     (output, err) = p.communicate()
     self.log.debug(output)
     self.log.info('*******************8')
     #self.assertTrue('==> default: Destroying VM and associated drives' in output)
-	#self.log.info(dash + " vagrant destroy ::Exit" + dash)
+	
     return output,err
 
 
 def vagrantSSH(self,command):
-    self.log.info(dash + "vagrant SSH :: Start" + dash)
+    self.log.info("vagrant SSH :: Start" )
     p = subprocess.Popen("vagrant ssh -c "+command, stdout=subprocess.PIPE, shell=True)
     (output, err) = p.communicate()
     self.log.debug(output)
-	#self.log.info(dash + "vagrant SSH :: Exit" + dash)
+	
     return output
 
 
